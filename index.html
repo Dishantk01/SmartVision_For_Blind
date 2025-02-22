@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Color Analyzer</title>
+</head>
+<body>
+    <h2>Upload an Image</h2>
+    <input type="file" id="imageInput" accept="image/*">
+    <button onclick="uploadImage()">Upload</button>
+
+    <h2>Listen to Colors</h2>
+    <button onclick="playAudio()">Play Audio</button>
+
+    <script>
+        function uploadImage() {
+            let fileInput = document.getElementById('imageInput');
+            if (fileInput.files.length === 0) {
+                alert("Please select an image first.");
+                return;
+            }
+            let formData = new FormData();
+            formData.append("image", fileInput.files[0]);
+
+            fetch("http://localhost:5000/process-image", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {})
+            .catch(error => console.error("Error:", error));
+        }
+
+        function playAudio() {
+            let audio = new Audio("http://localhost:5000/objects-now");
+            audio.play();
+        }
+    </script>
+</body>
+</html>
